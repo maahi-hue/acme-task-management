@@ -298,17 +298,48 @@ The application includes comprehensive error handling:
 ### Delete Confirmation Dialog
 ![Delete Confirmation Dialog](screenshots/delete-confirmation-dialog.png)
 
-## Bonus Feature: Premium Tasks
+### Payment Dialog (Bonus Feature)
+![Payment Dialog](screenshots/payment-dialog.png)
 
-This project includes a mock payment integration for premium tasks as a bonus feature.
+## Bonus Feature: Premium Tasks with Mock Payment Integration
+
+This project includes a mock payment gateway integration for premium tasks as a bonus feature, demonstrating sandbox payment flow without real transactions.
+
+### Overview
+
+Users can upgrade tasks to "Premium" status by completing a mock payment process. This feature simulates a real payment gateway experience while keeping all data local and secure.
 
 ### How It Works
 
-1. **Create Premium Task**: When creating a new task, check the "Premium Task" checkbox in the form
-2. **Mock Payment**: A payment dialog will appear requesting card details (mock only - no real payment)
-3. **Payment Processing**: The form simulates a 2-second payment processing delay
-4. **Premium Badge**: Premium tasks display a star icon (⭐) in the task list
-5. **Database**: The `is_premium` field is stored in the MySQL database
+1. **Create Premium Task**: When creating a new task, check the "Premium Task ($9.99)" checkbox in the form
+2. **Payment Dialog**: A payment dialog appears requesting card details (cardholder name, card number, expiry date, CVV)
+3. **Mock Processing**: The form simulates a 2-second payment processing delay to mimic real payment gateway behavior
+4. **Task Creation**: After successful "payment", the task is created with `is_premium: true` in the database
+5. **Premium Badge**: Premium tasks display a star icon (⭐) next to the title in the task list for easy identification
+
+### Payment Flow
+
+```
+User fills task form
+         ↓
+User checks "Premium Task" checkbox
+         ↓
+User clicks "Create Task"
+         ↓
+Payment Dialog opens
+         ↓
+User enters mock card details
+         ↓
+User clicks "Pay $9.99"
+         ↓
+2-second processing delay (simulated)
+         ↓
+Task created with premium status
+         ↓
+Success toast notification
+         ↓
+Task appears in list with star badge
+```
 
 ### Technical Implementation
 
