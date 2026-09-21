@@ -33,7 +33,7 @@ const AlertDialogFooter = ({ children, className = "" }) => (
 const AlertDialogAction = ({ children, onClick, className = "", ...props }) => (
   <button
     onClick={onClick}
-    className={`rounded-lg bg-red-600 px-4 py-2 text-sm font-medium text-white hover:bg-red-700 ${className}`}
+    className={`rounded-lg bg-red-600 cursor-pointer px-4 py-2 text-sm font-medium text-white hover:bg-red-700 ${className}`}
     {...props}
   >
     {children}
@@ -43,7 +43,7 @@ const AlertDialogAction = ({ children, onClick, className = "", ...props }) => (
 const AlertDialogCancel = ({ children, onClick, className = "", ...props }) => (
   <button
     onClick={onClick}
-    className={`rounded-lg border border-slate-200 bg-white px-4 py-2 text-sm font-medium text-slate-900 hover:bg-slate-50 ${className}`}
+    className={`rounded-lg border cursor-pointer border-slate-200 bg-white px-4 py-2 text-sm font-medium text-slate-900 hover:bg-slate-50 ${className}`}
     {...props}
   >
     {children}
