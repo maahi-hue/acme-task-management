@@ -15,4 +15,5 @@ export const taskSchema = z.object({
   status: z.enum(["Pending", "In Progress", "Completed"], {
     required_error: "Status is required",
   }),
+  is_premium: z.boolean().optional().default(false),
 });

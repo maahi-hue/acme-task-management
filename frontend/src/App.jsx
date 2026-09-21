@@ -4,6 +4,7 @@ import { Plus, X } from "lucide-react";
 
 import TaskForm from "./components/TaskForm";
 import TaskList from "./components/TaskList";
+import PaymentDialog from "./components/PaymentDialog";
 import { Card, CardHeader, CardTitle, CardContent } from "./components/ui/card";
 import { Button } from "./components/ui/button";
 import { Dialog, DialogHeader, DialogTitle, DialogContent, DialogFooter } from "./components/ui/dialog";
@@ -30,6 +31,8 @@ function App() {
   const [isDialogOpen, setIsDialogOpen] = useState(false);
   const [deleteDialogOpen, setDeleteDialogOpen] = useState(false);
   const [taskToDelete, setTaskToDelete] = useState(null);
+  const [paymentDialogOpen, setPaymentDialogOpen] = useState(false);
+  const [pendingTaskData, setPendingTaskData] = useState(null);
 
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
@@ -64,9 +67,37 @@ function App() {
         toast.success("Task updated successfully");
         setEditingTask(null);
         setIsDialogOpen(false);
+        await loadTasks();
       } else {
-        await createTask(taskData);
-        toast.success("Task created successfully");
+        // Check if premium task is being created
+        if (taskData.is_premium) {
+          setPendingTaskData(taskData);
+          setPaymentDialogOpen(true);
+        } else {
+          await createTask(taskData);
+          toast.success("Task created successfully");
+          setIsDialogOpen(false);
+          await loadTasks();
+        }
+      }
+
+    } catch (error) {
+      console.error(error);
+      toast.error(
+        error.response?.data?.message ||
+        "Something went wrong."
+      );
+    }
+  };
+
+  const handlePaymentSuccess = async () => {
+    try {
+      setError("");
+
+      if (pendingTaskData) {
+        await createTask(pendingTaskData);
+        toast.success("Premium task created successfully");
+        setPendingTaskData(null);
         setIsDialogOpen(false);
       }
 
@@ -198,6 +229,12 @@ function App() {
           </AlertDialogAction>
         </AlertDialogFooter>
       </AlertDialog>
+
+      <PaymentDialog
+        open={paymentDialogOpen}
+        onOpenChange={setPaymentDialogOpen}
+        onPaymentSuccess={handlePaymentSuccess}
+      />
     </div>
   );
 }

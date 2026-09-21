@@ -8,9 +8,11 @@ CREATE TABLE IF NOT EXISTS tasks (
   description TEXT NOT NULL,
   priority ENUM('Low', 'Medium', 'High') NOT NULL DEFAULT 'Medium',
   status ENUM('Pending', 'In Progress', 'Completed') NOT NULL DEFAULT 'Pending',
+  is_premium BOOLEAN DEFAULT FALSE,
   created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
   updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   INDEX idx_status (status),
   INDEX idx_priority (priority),
-  INDEX idx_created_at (created_at)
+  INDEX idx_created_at (created_at),
+  INDEX idx_premium (is_premium)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;

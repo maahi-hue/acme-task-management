@@ -36,7 +36,7 @@ router.get("/:id", async (req, res) => {
 // POST /api/tasks
 router.post("/", async (req, res) => {
   try {
-    const { title, description, priority, status } = req.body;
+    const { title, description, priority, status, is_premium } = req.body;
 
     if (!title || !description || !priority || !status) {
       return res.status(400).json({ message: "All fields are required" });
@@ -49,8 +49,8 @@ router.post("/", async (req, res) => {
     }
 
     const [result] = await pool.query(
-      "INSERT INTO tasks (title, description, priority, status) VALUES (?, ?, ?, ?)",
-      [title, description, priority, status]
+      "INSERT INTO tasks (title, description, priority, status, is_premium) VALUES (?, ?, ?, ?, ?)",
+      [title, description, priority, status, is_premium || false]
     );
 
     const [rows] = await pool.query("SELECT * FROM tasks WHERE id = ?", [result.insertId]);
@@ -65,7 +65,7 @@ router.post("/", async (req, res) => {
 router.put("/:id", async (req, res) => {
   try {
     const { id } = req.params;
-    const { title, description, priority, status } = req.body;
+    const { title, description, priority, status, is_premium } = req.body;
 
     if (!title || !description || !priority || !status) {
       return res.status(400).json({ message: "All fields are required" });
@@ -78,8 +78,8 @@ router.put("/:id", async (req, res) => {
     }
 
     const [result] = await pool.query(
-      "UPDATE tasks SET title = ?, description = ?, priority = ?, status = ? WHERE id = ?",
-      [title, description, priority, status, id]
+      "UPDATE tasks SET title = ?, description = ?, priority = ?, status = ?, is_premium = ? WHERE id = ?",
+      [title, description, priority, status, is_premium !== undefined ? is_premium : false, id]
     );
 
     if (result.affectedRows === 0) {

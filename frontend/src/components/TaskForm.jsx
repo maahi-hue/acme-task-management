@@ -6,12 +6,14 @@ import { Button } from "./ui/button";
 import { Input } from "./ui/input";
 import { Textarea } from "./ui/textarea";
 import { Select } from "./ui/select";
+import { Star } from "lucide-react";
 
-function TaskForm({ onSubmit, editingTask, onCancel }) {
+function TaskForm({ onSubmit, editingTask, onCancel, onPremiumRequest }) {
   const {
     register,
     handleSubmit,
     reset,
+    watch,
     formState: { errors, isSubmitting },
   } = useForm({
     resolver: zodResolver(taskSchema),
@@ -20,8 +22,11 @@ function TaskForm({ onSubmit, editingTask, onCancel }) {
       description: "",
       priority: "Medium",
       status: "Pending",
+      is_premium: false,
     },
   });
+
+  const isPremium = watch("is_premium");
 
   useEffect(() => {
     if (editingTask) {
@@ -30,6 +35,7 @@ function TaskForm({ onSubmit, editingTask, onCancel }) {
         description: editingTask.description,
         priority: editingTask.priority,
         status: editingTask.status,
+        is_premium: editingTask.is_premium || false,
       });
     } else {
       reset();
@@ -100,6 +106,22 @@ function TaskForm({ onSubmit, editingTask, onCancel }) {
             </p>
           )}
         </div>
+      </div>
+
+      <div className="flex items-center gap-2">
+        <input
+          type="checkbox"
+          id="is_premium"
+          {...register("is_premium")}
+          className="h-4 w-4 rounded border-slate-300 text-indigo-600 focus:ring-indigo-500"
+        />
+        <label
+          htmlFor="is_premium"
+          className="flex items-center gap-1 text-sm font-medium text-slate-700 cursor-pointer"
+        >
+          <Star size={14} className="fill-amber-400 text-amber-400" />
+          Premium Task ($9.99)
+        </label>
       </div>
 
       <div className="flex gap-3">

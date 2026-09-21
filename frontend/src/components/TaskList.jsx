@@ -1,4 +1,4 @@
-import { Pencil, Trash2, Calendar } from "lucide-react";
+import { Pencil, Trash2, Calendar, Star } from "lucide-react";
 import { Card } from "./ui/card";
 import { Badge } from "./ui/badge";
 import { Button } from "./ui/button";
@@ -47,6 +47,9 @@ function TaskList({ tasks, onEdit, onDelete }) {
             <div className="flex-1 min-w-0">
               <div className="flex flex-wrap items-center gap-2 mb-2">
                 <h3 className="text-sm font-semibold text-slate-900 sm:text-base">{task.title}</h3>
+                {task.is_premium && (
+                  <Star size={14} className="fill-amber-400 text-amber-400" />
+                )}
                 <Badge variant={getPriorityVariant(task.priority)}>
                   {task.priority}
                 </Badge>

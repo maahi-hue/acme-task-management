@@ -13,6 +13,7 @@ A full-stack web-based project and task management portal built with React, Node
 - **Mobile-Responsive Layout**: Optimized for all screen sizes
 - **Modern UI**: Built with Tailwind CSS and shadcn/ui components
 - **RESTful API**: Express.js backend with MySQL database
+- **Premium Tasks (Bonus)**: Mock payment integration for premium task creation ($9.99)
 
 ## Task Fields
 
@@ -21,6 +22,7 @@ Each task contains:
 - Description (5-500 characters)
 - Priority (Low/Medium/High)
 - Status (Pending/In Progress/Completed)
+- Premium (Optional - requires mock $9.99 payment)
 - Created Date (auto-generated)
 
 ## Tech Stack
@@ -295,6 +297,27 @@ The application includes comprehensive error handling:
 
 ### Delete Confirmation Dialog
 ![Delete Confirmation Dialog](screenshots/delete-confirmation-dialog.png)
+
+## Bonus Feature: Premium Tasks
+
+This project includes a mock payment integration for premium tasks as a bonus feature.
+
+### How It Works
+
+1. **Create Premium Task**: When creating a new task, check the "Premium Task" checkbox in the form
+2. **Mock Payment**: A payment dialog will appear requesting card details (mock only - no real payment)
+3. **Payment Processing**: The form simulates a 2-second payment processing delay
+4. **Premium Badge**: Premium tasks display a star icon (⭐) in the task list
+5. **Database**: The `is_premium` field is stored in the MySQL database
+
+### Technical Implementation
+
+- **Frontend**: PaymentDialog component with mock form validation
+- **Backend**: Updated API routes to handle `is_premium` field
+- **Database**: Added `is_premium` BOOLEAN column to tasks table
+- **Flow**: Form submission → Payment dialog → Mock processing → Task creation
+
+**Note**: This is a sandbox/mock payment integration. No real payments are processed. All card data is local and not transmitted to any payment gateway.
 
 ## License
 
